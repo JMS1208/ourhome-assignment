@@ -51,3 +51,7 @@ spring:
 
 jwt:
   secret: ${jwt.secret}
+
+logging:
+  level:
+    org.springframework.security: DEBUG
