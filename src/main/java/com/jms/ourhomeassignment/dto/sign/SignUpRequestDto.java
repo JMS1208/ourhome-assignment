@@ -1,5 +1,11 @@
 package com.jms.ourhomeassignment.dto.sign;
 
+import lombok.Builder;
+import lombok.Data;
+
+@Data
+@Builder
 public class SignUpRequestDto {
-    //TODO - userId password - 각각 validation 하자 길이 0 초과
+    private String id;
+    private String pw;
 }

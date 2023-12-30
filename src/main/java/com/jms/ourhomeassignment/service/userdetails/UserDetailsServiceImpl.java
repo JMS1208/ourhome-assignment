@@ -19,6 +19,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException {
         LOGGER.info("[loadUserByUsername] userId: {}", userId);
-        return userJpaRepository.findByUserId(userId);
+
+        return userJpaRepository.findByUserId(userId).orElseThrow(() -> new UsernameNotFoundException("not valid user"));
     }
 }

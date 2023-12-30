@@ -1,7 +1,6 @@
 package com.jms.ourhomeassignment.component.jwt;
 
 import com.jms.ourhomeassignment.data.token.JwtToken;
-import com.jms.ourhomeassignment.data.token.JwtTokens;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.security.core.Authentication;
 
@@ -9,11 +8,11 @@ import java.util.List;
 
 public interface JwtProvider {
 
+    //토큰 유효기간 1시간 -> 테스트를 위해 30일로 수정
+    public static final long TOKEN_DURATION = 1000L * 60 * 60 * 24 * 30;
+
     //아이디와 권한으로 액세스 토큰 생성
     JwtToken createToken(String userId, List<String> roles, long duration);
-
-    //액세스 토큰, 리프레시 토큰 갱신
-    JwtTokens refreshJwtTokens(String accessToken, String refreshToken);
 
     //토큰으로 인증정보 조회
     Authentication getAuthentication(String token);
