@@ -88,16 +88,22 @@
 #### OrderHistoryRequestDto
 ```
 {
-    "id": string,
-    "pw": string
+    "body": {
+        "id": string,
+        "pw": string
+    },
+    "token": string
 }
 ```
 
 ##### 예시
 ```
 {
-    "id": "ourhomeid",
-    "pw": "!ourhomep$"
+    "body": {
+        "id": "ourhomeid",
+        "pw": "!ourhomepw$"
+    },
+    "token": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJvdXJob21laWQiLCJyb2xlcyI6WyJST0xFX1VTRVIiXSwiaWF0IjoxNzAzODc1MzUzLCJleHAiOjE3MDY0NjczNTN9.Zujkz7F_LJ-Fsh_JNRPYW7sSTl-pG07M6w_yGSL2l0w"
 }
 ```
 
@@ -106,8 +112,24 @@
 ```
 {
   "result": {
-    "value": string,
-    "expiredAt": string
+    "orders": [
+      {
+        "id": number,
+        "orderedAt": string,
+        "orderDetails": [
+          {
+            "id": number,
+            "product": {
+              "id": number,
+              "name": string,
+              "price": number
+            },
+            "quantity": number,
+            "price": number
+          }
+        ]
+      }
+    ]
   },
   "rtnCd": number,
   "rtnMsg": string
@@ -117,11 +139,63 @@
 ```
 {
     "result": {
-        "value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJvdXJob21laWQiLCJyb2xlcyI6WyJST0xFX1VTRVIiXSwiaWF0IjoxNzAzOTQyNDQwLCJleHAiOjE3MDY1MzQ0NDB9.QJ4XhicRr3OmzNN1rC8dugb7tu-4_YCkrS9K8wNJ78g",
-        "expiredAt": "2024-01-29T13:20:40.277+00:00"
+        "orders": [
+            {
+                "id": 1,
+                "orderedAt": "2023-01-01T10:00:00",
+                "orderDetails": [
+                    {
+                        "id": 1,
+                        "product": {
+                            "id": 1,
+                            "name": "빵",
+                            "price": 1000
+                        },
+                        "quantity": 2,
+                        "price": 2000
+                    },
+                    {
+                        "id": 2,
+                        "product": {
+                            "id": 2,
+                            "name": "떡볶이",
+                            "price": 3000
+                        },
+                        "quantity": 1,
+                        "price": 3000
+                    }
+                ]
+            },
+            {
+                "id": 2,
+                "orderedAt": "2023-01-02T10:00:00",
+                "orderDetails": [
+                    {
+                        "id": 3,
+                        "product": {
+                            "id": 3,
+                            "name": "갈비",
+                            "price": 10000
+                        },
+                        "quantity": 1,
+                        "price": 10000
+                    },
+                    {
+                        "id": 4,
+                        "product": {
+                            "id": 4,
+                            "name": "김밥",
+                            "price": 2000
+                        },
+                        "quantity": 2,
+                        "price": 4000
+                    }
+                ]
+            }
+        ]
     },
     "rtnCd": 200,
-    "rtnMsg": "정상 처리 완료"
+    "rtnMsg": "select success"
 }
 ```
 
@@ -131,8 +205,24 @@
 ```
 {
   "result": {
-    "value": string,
-    "expiredAt": string
+    "orders": [
+      {
+        "id": number,
+        "orderedAt": string,
+        "orderDetails": [
+          {
+            "id": number,
+            "product": {
+              "id": number,
+              "name": string,
+              "price": number
+            },
+            "quantity": number,
+            "price": number
+          }
+        ]
+      }
+    ]
   },
   "rtnCd": number,
   "rtnMsg": string
@@ -142,10 +232,62 @@
 ```
 {
     "result": {
-        "value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJvdXJob21laWQiLCJyb2xlcyI6WyJST0xFX1VTRVIiXSwiaWF0IjoxNzAzOTQyNDQwLCJleHAiOjE3MDY1MzQ0NDB9.QJ4XhicRr3OmzNN1rC8dugb7tu-4_YCkrS9K8wNJ78g",
-        "expiredAt": "2024-01-29T13:20:40.277+00:00"
+        "orders": [
+            {
+                "id": 1,
+                "orderedAt": "2023-01-01T10:00:00",
+                "orderDetails": [
+                    {
+                        "id": 1,
+                        "product": {
+                            "id": 1,
+                            "name": "빵",
+                            "price": 1000
+                        },
+                        "quantity": 2,
+                        "price": 2000
+                    },
+                    {
+                        "id": 2,
+                        "product": {
+                            "id": 2,
+                            "name": "떡볶이",
+                            "price": 3000
+                        },
+                        "quantity": 1,
+                        "price": 3000
+                    }
+                ]
+            },
+            {
+                "id": 2,
+                "orderedAt": "2023-01-02T10:00:00",
+                "orderDetails": [
+                    {
+                        "id": 3,
+                        "product": {
+                            "id": 3,
+                            "name": "갈비",
+                            "price": 10000
+                        },
+                        "quantity": 1,
+                        "price": 10000
+                    },
+                    {
+                        "id": 4,
+                        "product": {
+                            "id": 4,
+                            "name": "김밥",
+                            "price": 2000
+                        },
+                        "quantity": 2,
+                        "price": 4000
+                    }
+                ]
+            }
+        ]
     },
     "rtnCd": 200,
-    "rtnMsg": "정상 처리 완료"
+    "rtnMsg": "select success"
 }
 ```
