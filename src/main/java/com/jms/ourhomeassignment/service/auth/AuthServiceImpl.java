@@ -10,6 +10,7 @@ import com.jms.ourhomeassignment.repository.user.UserJpaRepository;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +25,7 @@ public class AuthServiceImpl implements AuthService {
 
     private final JwtProvider jwtProvider;
 
-    private final PasswordEncoder passwordEncoder;
+    private final BCryptPasswordEncoder passwordEncoder;
 
     private final UserJpaRepository userJpaRepository;
 
