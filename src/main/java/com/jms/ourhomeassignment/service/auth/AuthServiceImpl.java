@@ -2,9 +2,11 @@ package com.jms.ourhomeassignment.service.auth;
 
 import com.jms.ourhomeassignment.component.jwt.JwtProvider;
 import com.jms.ourhomeassignment.data.token.JwtToken;
+import com.jms.ourhomeassignment.data.token.JwtTokens;
 import com.jms.ourhomeassignment.dto.sign.SignUpRequestDto;
 import com.jms.ourhomeassignment.entity.user.User;
 import com.jms.ourhomeassignment.exception.exception.AlreadyUserExistedException;
+import com.jms.ourhomeassignment.exception.exception.InvalidTokenException;
 import com.jms.ourhomeassignment.exception.exception.UserNotFoundException;
 import com.jms.ourhomeassignment.repository.user.UserJpaRepository;
 import lombok.RequiredArgsConstructor;
@@ -30,7 +32,7 @@ public class AuthServiceImpl implements AuthService {
     private final UserJpaRepository userJpaRepository;
 
     @Override
-    public JwtToken signIn(String userId, String password) throws UserNotFoundException {
+    public JwtTokens signIn(String userId, String password) throws UserNotFoundException {
         LOGGER.info("[signIn] 로그인 시도 userId: {}", userId);
 
         //userId로 User 가져옴 - 없으면 예외
@@ -39,7 +41,7 @@ public class AuthServiceImpl implements AuthService {
         //매개변수로 받은 패스워드 해싱한 값과 데이터베이스에 저장된 해싱된 패스워드와 비교 - 불일치시에 예외 던짐
         if(!isValidPassword(userId, password)) throw new UserNotFoundException("user not found");
 
-        return  jwtProvider.createToken(user.getUserId(), user.getRoles(), JwtProvider.TOKEN_DURATION);
+        return createTokens(user.getUserId(), user.getRoles());
     }
 
     @Override
@@ -58,6 +60,25 @@ public class AuthServiceImpl implements AuthService {
                 .build();
 
         userJpaRepository.save(user);
+    }
+
+    //userId 와 권한으로 토큰 생성
+    @Override
+    public JwtTokens createTokens(String userId,List<String> roles) {
+        JwtToken accessToken = jwtProvider.createToken(userId, roles, JwtProvider.ACCESS_TOKEN_DURATION);
+        JwtToken refreshToken = jwtProvider.createToken(userId, roles, JwtProvider.REFRESH_TOKEN_DURATION);
+
+        JwtTokens jwtTokens = new JwtTokens();
+        jwtTokens.setAccessToken(accessToken);
+        jwtTokens.setRefreshToken(refreshToken);
+
+        return jwtTokens;
+    }
+
+    //리프레시 토큰으로 액세스 토큰 갱신
+    @Override
+    public JwtToken recreateAccessToken(String accessToken, String refreshToken) throws InvalidTokenException {
+        return jwtProvider.recreateToken(accessToken, refreshToken);
     }
 
     @Override

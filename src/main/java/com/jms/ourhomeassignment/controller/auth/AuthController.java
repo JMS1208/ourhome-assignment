@@ -1,6 +1,7 @@
 package com.jms.ourhomeassignment.controller.auth;
 
 import com.jms.ourhomeassignment.data.token.JwtToken;
+import com.jms.ourhomeassignment.data.token.JwtTokens;
 import com.jms.ourhomeassignment.dto.ResponseDto;
 import com.jms.ourhomeassignment.dto.sign.SignInRequestDto;
 import com.jms.ourhomeassignment.dto.sign.SignUpRequestDto;
@@ -25,12 +26,12 @@ public class AuthController {
     //로그인 -> 토큰 반환
     @PostMapping("/sign-in")
     public ResponseEntity<?> signIn(@RequestBody SignInRequestDto requestDto) {
-        ResponseDto<JwtToken> responseDto = new ResponseDto<>();
+        ResponseDto<JwtTokens> responseDto = new ResponseDto<>();
 
         //로그인하면 토큰 발급
-        JwtToken jwtToken = authService.signIn(requestDto.getId(), requestDto.getPw());
+        JwtTokens jwtTokens = authService.signIn(requestDto.getId(), requestDto.getPw());
 
-        responseDto.setResult(jwtToken);
+        responseDto.setResult(jwtTokens);
         responseDto.setRtnCd(HttpStatus.OK.value());
         responseDto.setRtnMsg("정상 처리 완료");
 
@@ -46,6 +47,19 @@ public class AuthController {
 
         responseDto.setRtnCd(HttpStatus.OK.value());
         responseDto.setRtnMsg("정상 처리 완료");
+        return ResponseEntity.status(responseDto.getRtnCd()).body(responseDto);
+    }
+
+    //토큰 갱신
+    @PostMapping("/token")
+    public ResponseEntity<?> refreshToken(@RequestBody RefreshTokenRequestDto requestDto) {
+        ResponseDto<JwtToken> responseDto = new ResponseDto<>();
+
+        JwtToken newAccessToken = authService.recreateAccessToken(requestDto.getAccessToken(), requestDto.getRefreshToken());
+
+        responseDto.setResult(newAccessToken);
+        responseDto.setRtnCd(HttpStatus.OK.value());
+        responseDto.setRtnMsg("토큰 갱신 완료");
         return ResponseEntity.status(responseDto.getRtnCd()).body(responseDto);
     }
 

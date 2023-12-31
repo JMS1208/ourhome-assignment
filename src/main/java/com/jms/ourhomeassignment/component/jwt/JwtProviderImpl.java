@@ -1,6 +1,7 @@
 package com.jms.ourhomeassignment.component.jwt;
 
 import com.jms.ourhomeassignment.data.token.JwtToken;
+import com.jms.ourhomeassignment.exception.exception.InvalidTokenException;
 import io.jsonwebtoken.*;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -53,6 +54,22 @@ public class JwtProviderImpl implements JwtProvider {
         LOGGER.info("[createToken] 토큰 생성 완료");
 
         return new JwtToken(token, expiredAt);
+    }
+
+    @Override
+    public JwtToken recreateToken(String accessToken, String refreshToken) throws InvalidTokenException {
+
+        //refreshToken 이 만료되었는 지 확인
+        if(!validateToken(refreshToken)) throw new InvalidTokenException("리프레시 토큰 만료");
+
+        //refreshToken 과 accessToken 의 아이디가 같은지 검증
+        String refreshTokenUserId = getUserId(refreshToken);
+        String accessTokenUserId = getUserId(accessToken);
+        if(!refreshTokenUserId.equals(accessTokenUserId)) throw new InvalidTokenException("토큰 불일치");
+
+        List<String> roles = getRoles(refreshToken);
+
+        return createToken(refreshTokenUserId, roles, JwtProvider.ACCESS_TOKEN_DURATION);
     }
 
     @Override
