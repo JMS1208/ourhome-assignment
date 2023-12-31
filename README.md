@@ -3,6 +3,7 @@
 |:------|:---|:-------|:----|----:|
 |회원가입|POST|/public/sign-up|[SignUpRequestDto](README.md#signuprequestdto)|[SignUpResponseDto](README.md#signupresponsedto)|
 |로그인|POST|/public/sign-in|[SignInRequestDto](README.md#signinrequestdto)|[SignInResponseDto](README.md#signinresponsedto)|
+|액세스 토큰 갱신|POST|/public/token|[RefreshTokenRequestDto](README.md#refreshtokenrequestdto)|[RefreshTokenResponseDto](README.md#refreshtokenresponsedto)|
 |Body 인증 정보로 인증 후 데이터 조회|POST|/public/orders|[OrderHistoryRequestDto](README.md#orderhistoryrequestdto)|[OrderHistoryResponseDto](README.md#orderhistoryresponsedto-body-방식)|
 |Header 토큰으로 인증 후 데이터 조회|GET|/api/orders||[OrderHistoryResponseDto](README.md#orderhistoryresponsedto-header-방식)|
 
@@ -84,7 +85,48 @@
 }
 ```
 
-### 3) Body 인증 정보로 인증 후 데이터 조회
+### 3) 액세스 토큰 갱신 
+#### RefreshTokenRequestDto
+```
+{
+    "accessToken": string,
+    "refreshToken": string
+}
+```
+
+##### 예시
+```
+{
+    "accessToken": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJvdXJob21laWQiLCJyb2xlcyI6WyJST0xFX1VTRVIiXSwiaWF0IjoxNzA0MDM0NTI4LCJleHAiOjE3MDQ2MzkzMjh9.cpX3xNcm7HEF9o730sJIcMRznnEgImibylQBI2K2vlU",
+    "refreshToken": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJvdXJob21laWQiLCJyb2xlcyI6WyJST0xFX1VTRVIiXSwiaWF0IjoxNzA0MDM0NTI4LCJleHAiOjE3MDY2MjY1Mjh9.d9xY10t5hZ4FGRhFSaZUHDTWKyGKeMBk-kSJLZk9jGM"
+}
+```
+
+
+#### RefreshTokenResponseDto
+```
+{
+  "result": {
+    "value": string,
+    "expiredAt": string
+  },
+  "rtnCd": number,
+  "rtnMsg": string
+}
+```
+##### 예시
+```
+{
+    "result": {
+        "value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJvdXJob21laWQiLCJyb2xlcyI6WyJST0xFX1VTRVIiXSwiaWF0IjoxNzA0MDM0NTc3LCJleHAiOjE3MDQ2MzkzNzd9.vwsZ5XwlEDbWYhrtJt04bZbw7oJq8gwA1ZS-P0ll0Lo",
+        "expiredAt": "2024-01-07T14:56:17.280+00:00"
+    },
+    "rtnCd": 200,
+    "rtnMsg": "정상 처리 완료"
+}
+```
+
+### 4) Body 인증 정보로 인증 후 데이터 조회
 #### OrderHistoryRequestDto
 ```
 {
@@ -199,7 +241,7 @@
 }
 ```
 
-### 4) Header 토큰으로 인증 후 데이터 조회 
+### 5) Header 토큰으로 인증 후 데이터 조회 
 
 #### OrderHistoryResponseDto (Header 방식)
 ```
