@@ -1,7 +1,7 @@
 ## 1. API 명세 
 |기능|HTTP 메서드|API Path|Request|Response|
 |:------|:---|:-------|:----|----:|
-|회원가입|POST|/public/sign-up|[SignUpRequestDto](README.md#signuprequestdto)|String|
+|회원가입|POST|/public/sign-up|[SignUpRequestDto](README.md#signuprequestdto)|[SignUpResponseDto](README.md#signupresponsedto)|
 |로그인|POST|/public/sign-in|[SignInRequestDto](README.md#signinrequestdto)|JwtToken|
 |Body 인증 정보로 인증 후 데이터 조회|POST|/public/orders|SearchRequestDto|OrderHistoryDto|
 |Header 토큰으로 인증 후 데이터 조회|GET|/api/orders||OrderHistoryDto|
@@ -26,7 +26,7 @@
 ```
 
 
-#### String
+#### SignUpResponseDto
 ```
 {
   "result": string;
