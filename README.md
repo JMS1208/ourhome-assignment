@@ -9,7 +9,7 @@
 
 ## 2. DTO
 ### 1) 회원가입 
-#### Request - SignUpRequestDto
+#### SignUpRequestDto
 ```
 {
     "id": string;
@@ -26,7 +26,7 @@
 ```
 
 
-#### Response - String
+#### String
 ```
 {
   "result": string;
