@@ -1,6 +1,5 @@
 package com.jms.ourhomeassignment.controller.order;
 
-import com.jms.ourhomeassignment.component.jwt.JwtProvider;
 import com.jms.ourhomeassignment.data.order.history.OrderHistory;
 import com.jms.ourhomeassignment.dto.RequestDto;
 import com.jms.ourhomeassignment.dto.ResponseDto;
@@ -8,7 +7,6 @@ import com.jms.ourhomeassignment.dto.order.OrderHistoryDto;
 import com.jms.ourhomeassignment.dto.query.SearchRequestDto;
 import com.jms.ourhomeassignment.service.auth.AuthService;
 import com.jms.ourhomeassignment.service.order.history.OrderHistoryService;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

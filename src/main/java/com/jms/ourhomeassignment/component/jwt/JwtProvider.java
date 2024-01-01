@@ -1,7 +1,6 @@
 package com.jms.ourhomeassignment.component.jwt;
 
 import com.jms.ourhomeassignment.data.token.JwtToken;
-import com.jms.ourhomeassignment.data.token.JwtTokens;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.security.core.Authentication;
 
