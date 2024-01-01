@@ -82,29 +82,39 @@ public class JwtProviderImpl implements JwtProvider {
     }
 
     @Override
-    public String getUserId(String token) {
-        LOGGER.info("[getUserId] 토큰 기반 회원 구별 정보 추출");
-        String info = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody()
-                .getSubject();
+    public String getUserId(String token) throws InvalidTokenException {
+        try {
+            LOGGER.info("[getUserId] 토큰 기반 회원 구별 정보 추출");
+            String info = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody()
+                    .getSubject();
 
-        LOGGER.info("[getUserId] 토큰 기반 회원 구별 정보 추출 완료, info: {}", info);
+            LOGGER.info("[getUserId] 토큰 기반 회원 구별 정보 추출 완료, info: {}", info);
 
-        return info;
+            return info;
+        } catch (Exception e) {
+            throw new InvalidTokenException("토큰이 유효하지 않습니다.");
+        }
     }
 
     @Override
-    public List<String> getRoles(String token) {
-        LOGGER.info("[getRoles] 토큰 기반 사용자 권한 정보 추출");
+    public List<String> getRoles(String token) throws InvalidTokenException {
 
-        // 토큰 파싱
-        Claims claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody();
+        try {
+            LOGGER.info("[getRoles] 토큰 기반 사용자 권한 정보 추출");
 
-        // 권한 정보 추출
-        List<String> roles = claims.get("roles", List.class);
+            // 토큰 파싱
+            Claims claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody();
 
-        LOGGER.info("[getRoles] 토큰 기반 사용자 권한 정보 추출 완료, roles: {}", roles);
+            // 권한 정보 추출
+            List<String> roles = claims.get("roles", List.class);
 
-        return roles;
+            LOGGER.info("[getRoles] 토큰 기반 사용자 권한 정보 추출 완료, roles: {}", roles);
+
+            return roles;
+        } catch (Exception e) {
+            throw new InvalidTokenException("토큰이 유효하지 않습니다.");
+        }
+
     }
 
     @Override
@@ -123,9 +133,9 @@ public class JwtProviderImpl implements JwtProvider {
     public boolean validateToken(String token) {
         LOGGER.info("[validateToken] 토큰 유효성 체크");
         try {
-            Jws<Claims> claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
+            Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
             //만료기간 안 지났는지 확인
-            return !claims.getBody().getExpiration().before(new Date());
+            return true;
         } catch(Exception e) {
             LOGGER.info("[validateToken] 토큰 유효 체크 예외");
             return false;
