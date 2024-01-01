@@ -6,12 +6,16 @@ import com.jms.ourhomeassignment.data.token.JwtTokens;
 import com.jms.ourhomeassignment.dto.sign.SignUpRequestDto;
 import com.jms.ourhomeassignment.entity.user.User;
 import com.jms.ourhomeassignment.exception.exception.AlreadyUserExistedException;
+import com.jms.ourhomeassignment.exception.exception.CustomAuthenticationException;
 import com.jms.ourhomeassignment.exception.exception.InvalidTokenException;
 import com.jms.ourhomeassignment.exception.exception.UserNotFoundException;
 import com.jms.ourhomeassignment.repository.user.UserJpaRepository;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -79,6 +83,17 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public JwtToken recreateAccessToken(String accessToken, String refreshToken) throws InvalidTokenException {
         return jwtProvider.recreateToken(accessToken, refreshToken);
+    }
+
+    @Override
+    public String getCurrentUserId() throws AuthenticationException {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        //인증되지 않은 사용자인 경우
+        if (authentication == null || !authentication.isAuthenticated()) {
+            throw new CustomAuthenticationException("인증되지 않은 유저입니다.");
+        }
+        //사용자의 userId를 반환
+        return authentication.getName();
     }
 
     @Override

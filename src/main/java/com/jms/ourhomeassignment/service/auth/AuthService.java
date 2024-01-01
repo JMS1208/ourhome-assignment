@@ -18,4 +18,6 @@ public interface AuthService {
 
     boolean isValidUser(String userId, String password, String token);
 
+    String getCurrentUserId();
+
 }

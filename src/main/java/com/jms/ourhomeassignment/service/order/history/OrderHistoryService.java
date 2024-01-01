@@ -8,4 +8,5 @@ import java.util.Set;
 
 public interface OrderHistoryService {
     OrderHistory getOrderHistory(String userId, Pageable pageable);
+    OrderHistory getOrderHistory(Pageable pageable);
 }

@@ -26,8 +26,6 @@ public class OrderHistoryController {
 
     private final Logger LOGGER = LoggerFactory.getLogger(OrderHistoryController.class);
 
-    private final JwtProvider jwtProvider;
-
     private final AuthService authService;
 
     private final OrderHistoryService orderHistoryService;
@@ -39,20 +37,14 @@ public class OrderHistoryController {
      * 동적인 쿼리 파라미터
      */
     @GetMapping("/api/orders")
-    public ResponseEntity<?> searchWithHeaderToken(
-        HttpServletRequest httpServletRequest
-    ) {
+    public ResponseEntity<?> searchWithHeaderToken() {
+
+        OrderHistory orderHistory = orderHistoryService.getOrderHistory(PageRequest.of(PAGE, PAGE_SIZE));
+
         ResponseDto<OrderHistoryDto> responseDto = new ResponseDto<>();
-
-        String token = jwtProvider.resolveToken(httpServletRequest);
-        String userId = jwtProvider.getUserId(token);
-
-        OrderHistory orderHistory = orderHistoryService.getOrderHistory(userId, PageRequest.of(PAGE, PAGE_SIZE));
-
         responseDto.setResult(OrderHistoryDto.from(orderHistory));
         responseDto.setRtnMsg("select success");
         responseDto.setRtnCd(HttpStatus.OK.value());
-
         return ResponseEntity.status(responseDto.getRtnCd()).body(responseDto);
     }
 

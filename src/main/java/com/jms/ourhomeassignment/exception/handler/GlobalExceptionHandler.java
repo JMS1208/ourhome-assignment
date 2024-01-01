@@ -2,6 +2,7 @@ package com.jms.ourhomeassignment.exception.handler;
 
 import com.jms.ourhomeassignment.dto.ResponseDto;
 import com.jms.ourhomeassignment.exception.exception.AlreadyUserExistedException;
+import com.jms.ourhomeassignment.exception.exception.CustomAuthenticationException;
 import com.jms.ourhomeassignment.exception.exception.InvalidTokenException;
 import com.jms.ourhomeassignment.exception.exception.UserNotFoundException;
 import org.springframework.http.HttpStatus;
@@ -38,6 +39,16 @@ public class GlobalExceptionHandler {
         responseDto.setResult(e.getMessage());
         responseDto.setRtnCd(HttpStatus.BAD_REQUEST.value());
         responseDto.setRtnMsg("유효하지 않은 토큰입니다.");
+
+        return ResponseEntity.status(responseDto.getRtnCd()).body(responseDto);
+    }
+
+    @ExceptionHandler(CustomAuthenticationException.class)
+    public ResponseEntity<?> handleCustomAuthenticationException(CustomAuthenticationException e) {
+        ResponseDto<String> responseDto = new ResponseDto<>();
+        responseDto.setResult(e.getMessage());
+        responseDto.setRtnCd(HttpStatus.BAD_REQUEST.value());
+        responseDto.setRtnMsg("인증되지 않은 사용자입니다.");
 
         return ResponseEntity.status(responseDto.getRtnCd()).body(responseDto);
     }
