@@ -4,8 +4,8 @@
 |회원가입|POST|/public/sign-up|[SignUpRequestDto](README.md#signuprequestdto)|[SignUpResponseDto](README.md#signupresponsedto)|
 |로그인|POST|/public/sign-in|[SignInRequestDto](README.md#signinrequestdto)|[SignInResponseDto](README.md#signinresponsedto)|
 |액세스 토큰 갱신|POST|/public/token|[RefreshTokenRequestDto](README.md#refreshtokenrequestdto)|[RefreshTokenResponseDto](README.md#refreshtokenresponsedto)|
-|Body 인증 정보로 인증 후 데이터 조회|POST|/public/orders|[OrderHistoryRequestDto](README.md#orderhistoryrequestdto)|[OrderHistoryResponseDto](README.md#orderhistoryresponsedto-body-방식)|
-|Header 토큰으로 인증 후 데이터 조회|GET|/api/orders||[OrderHistoryResponseDto](README.md#orderhistoryresponsedto-header-방식)|
+|Body 인증 정보로 인증 후 데이터 조회|POST|/public/orders?page=0&size=10&direction=DESC|[OrderHistoryRequestDto](README.md#orderhistoryrequestdto)|[OrderHistoryResponseDto](README.md#orderhistoryresponsedto-body-방식)|
+|Header 토큰으로 인증 후 데이터 조회|GET|/api/orders?page=0&size=10&direction=DESC||[OrderHistoryResponseDto](README.md#orderhistoryresponsedto-header-방식)|
 
 
 ## 2. DTO
