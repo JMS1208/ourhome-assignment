@@ -127,6 +127,13 @@
 ```
 
 ### 4) Body 인증 정보로 인증 후 데이터 조회
+#### 쿼리 파라미터
+|Name|Description|Default|Type|Required|
+|:------|:---|:---|:-------|:----|
+|page|오프셋|0|number|false|
+|size|크기|10|number|false|
+|direction|정렬|string|ASC/DESC|false
+
 #### OrderHistoryRequestDto
 ```
 {
