@@ -249,6 +249,7 @@
 ```
 
 ### 5) Header 토큰으로 인증 후 데이터 조회 
+#### 쿼리 파라미터
 |Name|Description|Default|Type|Required|Option|
 |:------|:---|:---|:-------|:----|---:|
 |page|오프셋|0|number|false||
