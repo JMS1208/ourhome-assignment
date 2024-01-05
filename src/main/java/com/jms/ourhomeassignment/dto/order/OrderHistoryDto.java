@@ -16,7 +16,7 @@ public class OrderHistoryDto {
     private List<OrderDto> orders;
 
     public static OrderHistoryDto from(OrderHistory orderHistory) {
-        List<OrderDto> orderDtos = orderHistory.getOrders().stream().map(OrderDto::from).toList();
+        List<OrderDto> orderDtos = orderHistory.getOrders().stream().sorted(((o1, o2) -> -o1.getOrderedAt().compareTo(o2.getOrderedAt()))).map(OrderDto::from).toList();
         OrderHistoryDto orderHistoryDto = new OrderHistoryDto();
         orderHistoryDto.setOrders(orderDtos);
         return orderHistoryDto;

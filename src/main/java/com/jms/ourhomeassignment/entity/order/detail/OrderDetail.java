@@ -5,6 +5,7 @@ import com.jms.ourhomeassignment.entity.product.Product;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.ToString;
+import org.hibernate.annotations.BatchSize;
 
 @Data
 @ToString(exclude = "order")
@@ -20,6 +21,7 @@ public class OrderDetail {
     @JoinColumn(name = "order_id", nullable = false)
     private Order order;
 
+    @BatchSize(size = 100)
     @ManyToOne
     @JoinColumn(name = "product_id", nullable = false)
     private Product product;
